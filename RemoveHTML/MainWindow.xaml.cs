@@ -1,15 +1,8 @@
-﻿using MySQLlibrary;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using MySQLibrary;
+using MySQLlibrary;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RemoveHTML
 {
@@ -20,12 +13,29 @@ namespace RemoveHTML
     {
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            DataContext = this;
+            dataGrid.ItemsSource = DataBase.SelectIssueDescription();
+            LongTextConverter LongTextConverter = new LongTextConverter();
+            dataGrid.AutoGeneratingColumn += (ss, ee) =>
+            {
+                DataGridTextColumn column = ee.Column as DataGridTextColumn;
+                column.Binding = new Binding(ee.PropertyName) { Converter = LongTextConverter };
+            };
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DataBase.SelectIssueDescription();
+            var selectedItem = dataGrid?.SelectedItem as DescriptionModel;
+            if (selectedItem == null) { return; }
+
+            tbSelected.Text = selectedItem.Description;
+        }
+
+        private void ReadDataBaseData_click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = DataBase.SelectIssueDescription();
         }
     }
 }

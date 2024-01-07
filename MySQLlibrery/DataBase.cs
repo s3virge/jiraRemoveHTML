@@ -1,5 +1,6 @@
 ﻿
 using MySql.Data.MySqlClient;
+using MySQLibrary;
 using System.Data;
 
 namespace MySQLlibrary
@@ -82,7 +83,7 @@ namespace MySQLlibrary
         {
             Environment.SetEnvironmentVariable(dbConnectionName, connectionString, EnvironmentVariableTarget.User);
         }
-        
+
         public static void RemoveConnectionParametersFromEvironment()
         {
             Environment.SetEnvironmentVariable(dbConnectionName, null, EnvironmentVariableTarget.User);
@@ -149,28 +150,30 @@ namespace MySQLlibrary
             //Connection = null;
         }
 
-        public static List<string> SelectIssueDescription()
+        public static List<DescriptionModel> SelectIssueDescription()
         {
-            //List<DataGridItem> result = new List<DataGridItem>();
-            List<string> result = new();
+            List<DescriptionModel> result = new();
             var dbCon = Instance();
             if (dbCon.Connect())
             {
                 //string query = "SELECT * FROM jira434.jiraissue";
-                string query = "SELECT * from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
+                //string query = "SELECT * from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
+                string query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
                 using var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
+                
                 while (reader.Read())
                 {
-                string id = reader.GetString(0);
-                //string aliasRu = reader.GetString(reader.GetOrdinal("alias_ru-RU"));
-              
-                //    //var catItem = new DataGridItem()
-                //    //{
-                //    //    Category_ID = id,                
-                //    //};
+                    string id = reader.GetString(0);
+                    string description = reader.GetString(reader.GetOrdinal("Description"));
 
-                result.Add(id);
+                    var item = new DescriptionModel()
+                    {
+                        ID = id,
+                        Description = description
+                    };
+
+                    result.Add(item);
                 }
                 dbCon.Close();
             }

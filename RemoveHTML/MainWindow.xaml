@@ -5,18 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RemoveHTML"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="768" Width="1024" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>            
             <ColumnDefinition Width="*"/>            
+            <ColumnDefinition Width="4"/>            
             <ColumnDefinition Width="*"/>            
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="20*"/>
             <RowDefinition Height="*"/>            
         </Grid.RowDefinitions>
 
-        <Button Content="Select" Click="Button_Click" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <DataGrid x:Name="dataGrid" AutoGenerateColumns="True" Grid.ColumnSpan="3" SelectionMode="Extended" SelectionChanged="DataGrid_SelectionChanged" FontSize="14"/>
+        <TextBox x:Name="tbSelected" Grid.Row="1" Text="selected item" TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+        <GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowsPreview="True"/>
+        <TextBox x:Name="tbConverted" Grid.Row="1" Grid.Column="2" Text="converted item" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+        
+        <Grid Grid.Row="3" Background="#FFEDEDED" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" x:Name="lbInfo" Content="Translated: 0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button Grid.Column="1" Content="Read all the table data" Click="ReadDataBaseData_click"/>
+            <Button Grid.Column="2" Content="Convert all" />
+            <Button Grid.Column="3" Content="Convert selected" />
+            <Button Grid.Column="4" Content="Update selected" ToolTip="Update" />
+        </Grid>
     </Grid>
+
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+t" Command=""/>
+    </Window.InputBindings>
 </Window>
