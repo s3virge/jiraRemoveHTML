@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MySQLlibrery\MySQLlibrery.csproj" />
+    <ProjectReference Include="..\MySQLlibrery\MySQLibrary.csproj" />
   </ItemGroup>
 
 </Project>
