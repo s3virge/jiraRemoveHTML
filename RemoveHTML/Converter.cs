@@ -17,9 +17,10 @@ namespace RemoveHTML
         {
             string convertedText = text;
             convertedText = convertedText.Replace("\'", "\'\'");
+
+            convertedText = Regex.Replace(convertedText, "<(\\/?)(p|span|div|br)(.*?)>", ""); //<page>, <p>, </p>, <p style=... >, <span>, </span>, <span style=... >, <br>, <br />, <br/>
             convertedText = Regex.Replace(convertedText, "<(\\/?)(b|strong)(.*?)>", "*");
             convertedText = Regex.Replace(convertedText, "<(\\/?)(del)(.*?)>", "-");
-            convertedText = Regex.Replace(convertedText, "<(\\/?)(p|span|div|br)(.*?)>", ""); //<page>, <p>, </p>, <p style=... >, <span>, </span>, <span style=... >, <br>, <br />, <br/>
             
             if(convertedText.Contains("<a "))
             {

@@ -158,7 +158,8 @@ namespace MySQLlibrary
                 string query = "SELECT * from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
                 //string query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
                 query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<ul%';";
-                query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%\\'%';";
+                //query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%\\'%';";
+                //query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<b>%';";
                
                 using var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
