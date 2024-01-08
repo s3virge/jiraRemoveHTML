@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,18 +15,20 @@ namespace RemoveHTML
         /// </summary>
         public static string ToJiraMarkup(string text)
         {
-            string convertedText = "";
-            convertedText = Regex.Replace(text, "<b>", "*");
-            convertedText = Regex.Replace(convertedText, "</b>", "*");
-            convertedText = Regex.Replace(convertedText, "<del>", "-");
-            convertedText = Regex.Replace(convertedText, "</del>", "-");
-            convertedText = Regex.Replace(convertedText, "<(\\/?)(p|span|div|br|del)(.*?)>", ""); //<page>, <p>, </p>, <p style=... >, <span>, </span>, <span style=... >, <br>, <br />, <br/>
+            string convertedText = text;
+            convertedText = convertedText.Replace("\'", "\'\'");
+            convertedText = Regex.Replace(convertedText, "<(\\/?)(b|strong)(.*?)>", "*");
+            convertedText = Regex.Replace(convertedText, "<(\\/?)(del)(.*?)>", "-");
+            convertedText = Regex.Replace(convertedText, "<(\\/?)(p|span|div|br)(.*?)>", ""); //<page>, <p>, </p>, <p style=... >, <span>, </span>, <span style=... >, <br>, <br />, <br/>
             
-            while (convertedText.Contains("<a "))
+            if(convertedText.Contains("<a "))
             {
-                convertedText = ConvertHtmlLinkToMarkup(convertedText);
+                do
+                {
+                    convertedText = ConvertHtmlLinkToMarkup(convertedText);
+                }
+                while (convertedText.Contains("<a ") == true);
             }
-
             return convertedText;
         }
 
@@ -40,7 +43,7 @@ namespace RemoveHTML
             string linkHref = Regex.Match(match.Value, "(?<=href=\")(.+?)(?=\")").ToString();
             string linkName = Regex.Match(match.Value, "(?<=>)(.+?)(?=<\\/a>)").ToString();
 
-            textWithLink = Regex.Replace(textWithLink, match.Value, $"[{linkName}|{linkHref}]");
+            textWithLink = textWithLink.Replace(match.Value, $"[{linkName}|{linkHref}]");
 
             return textWithLink;
         }
