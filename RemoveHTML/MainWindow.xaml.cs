@@ -31,11 +31,18 @@ namespace RemoveHTML
             if (selectedItem == null) { return; }
 
             tbSelected.Text = selectedItem.Description;
+            tbConverted.Text = Converter.ToJiraMarkup(tbSelected.Text);
+            //tbConverted.Text = "";
         }
 
         private void ReadDataBaseData_click(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = DataBase.SelectIssueDescription();
+        }
+
+        private void ConvertSelected_click(object sender, RoutedEventArgs e)
+        {
+            tbConverted.Text = Converter.ToJiraMarkup(tbSelected.Text);
         }
     }
 }

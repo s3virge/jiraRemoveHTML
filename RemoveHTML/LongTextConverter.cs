@@ -13,10 +13,16 @@ namespace RemoveHTML
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string s = value as string;
-            if (!string.IsNullOrEmpty(s) && s.Length > 170)
+            if (!string.IsNullOrEmpty(s))
             {
-                s = s.Replace("\r\n"," ");
-                return $"{s.Substring(0, 170)}...";
+                s = s.Replace("\r","");
+                s = s.Replace("\n"," ");
+
+                if (s.Length > 170)
+                {
+                    return $"{s.Substring(0, 170)}...";
+                }
+                return s;
             }
             return value;
         }

@@ -146,8 +146,7 @@ namespace MySQLlibrary
         public void Close()
         {
             Connection.Close();
-            Connection.Dispose();
-            //Connection = null;
+            Connection.Dispose();            
         }
 
         public static List<DescriptionModel> SelectIssueDescription()
@@ -159,6 +158,7 @@ namespace MySQLlibrary
                 //string query = "SELECT * FROM jira434.jiraissue";
                 //string query = "SELECT * from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
                 string query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
+               
                 using var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
                 
