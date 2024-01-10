@@ -39,7 +39,7 @@
             <Button Grid.Column="1" Content="Read all the table data" Click="ReadDataBaseData_click"/>
             <Button Grid.Column="2" Content="Convert all" />
             <Button Grid.Column="3" Content="Convert selected" Click="ConvertSelected_click"/>
-            <Button Grid.Column="4" Content="Update selected" ToolTip="Update" />
+            <Button Grid.Column="4" Content="Update selected" Click="UpdateSelected_click" ToolTip="Update" />
         </Grid>
     </Grid>
 

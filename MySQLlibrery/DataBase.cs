@@ -146,7 +146,7 @@ namespace MySQLlibrary
         public void Close()
         {
             Connection.Close();
-            Connection.Dispose();            
+            Connection.Dispose();
         }
 
         public static List<DescriptionModel> SelectIssueDescription()
@@ -154,16 +154,18 @@ namespace MySQLlibrary
             List<DescriptionModel> result = new();
             var dbCon = Instance();
             if (dbCon.Connect())
-            {  
+            {
                 string query = "SELECT * from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
                 //string query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<%';";
                 query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<ul%';";
                 //query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%\\'%';";
                 //query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<b>%';";
-               
+                //query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and DESCRIPTION like '%<h%';";
+                query = "SELECT ID,DESCRIPTION from jira434.jiraissue WHERE PROJECT = '10156' and ID = 570291;";
+
                 using var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
-                
+
                 while (reader.Read())
                 {
                     string id = reader.GetString(0);
@@ -180,6 +182,22 @@ namespace MySQLlibrary
                 dbCon.Close();
             }
             return result;
+        }
+
+        public static int UpdateDescription(string id, string descriptionText)
+        {
+            var dbCon = Instance();
+            if (dbCon.Connect())
+            {
+                string query = "UPDATE jira434.jiraissue " +
+                                 $"SET `description` = '{descriptionText}' " +
+                                 $"WHERE id = {id}";
+                using var cmd = new MySqlCommand(query, dbCon.Connection);
+                int rowsUpdated = cmd.ExecuteNonQuery();
+                dbCon.Close();
+                return rowsUpdated;
+            }
+            return 0;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MySQLibrary;
 using MySQLlibrary;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,9 +31,11 @@ namespace RemoveHTML
             var selectedItem = dataGrid?.SelectedItem as DescriptionModel;
             if (selectedItem == null) { return; }
 
+            Debug.WriteLine($"*** Selected item ID: {selectedItem.ID} ***");
+            
             tbSelected.Text = selectedItem.Description;
-            tbConverted.Text = Converter.ToJiraMarkup(tbSelected.Text);
-            //tbConverted.Text = "";
+            //tbConverted.Text = Converter.ToJiraMarkup(tbSelected.Text);
+            
         }
 
         private void ReadDataBaseData_click(object sender, RoutedEventArgs e)
@@ -43,6 +46,13 @@ namespace RemoveHTML
         private void ConvertSelected_click(object sender, RoutedEventArgs e)
         {
             tbConverted.Text = Converter.ToJiraMarkup(tbSelected.Text);
+        }
+
+        private void UpdateSelected_click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = dataGrid?.SelectedItem as DescriptionModel;
+            if (selectedItem == null) { return; }
+            DataBase.UpdateDescription(selectedItem.ID, tbConverted.Text);
         }
     }
 }
